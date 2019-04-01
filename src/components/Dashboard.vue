@@ -24,7 +24,8 @@ export default {
   components: { NavBar, SalesChart, SalesPie, SalesTable, Gauge },
   computed: {
     gaugeData() {
-      const total = this.$store.state.recentSales.reduce(
+      const items = this.$store.state.recentSales;
+      const total = items.reduce(
         (acc, sale) => (acc += sale.value),
         0
       );

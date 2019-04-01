@@ -23,10 +23,10 @@ export default {
     ChartPanel: ChartPanel
   },
   props: ["gaugeValue"],
-  data: function() {
-    return {
-      value: parseInt(this.gaugeValue)
-    };
+  computed: {
+    value: function() { 
+      return parseInt(this.gaugeValue); 
+    }
   }
 };
 </script>

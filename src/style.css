@@ -8,6 +8,16 @@ body,
   margin-top: 20px;
 }
 
+.buttonRow {
+  margin-top: 25px;
+  display: flex;
+}
+
+.dashboardButton {
+    margin-right: 10px;
+    margin-bottom: 25px;
+}
+
 .dashboardPanel {
   margin-top: 20px;
   height: 365px;
