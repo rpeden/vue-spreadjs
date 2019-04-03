@@ -1,5 +1,5 @@
 <template>
-  <TablePanel title="Recent Sales">
+  <TablePanel :key="chartKey" title="Recent Sales">
     <gc-spread-sheets :hostClass='hostClass' @workbookInitialized='workbookInit'>
       <gc-worksheet :dataSource='tableData' :name="sheetName" :autoGenerateColumns='autoGenerateColumns'>
         <gc-column
@@ -28,7 +28,7 @@
             :dataField="'value'"
             :headerText="'Value'"
             :visible = 'visible'
-            :formatter = 'priceFormatter'
+            formatter = '$ #.00'
             :resizable = 'resizable'
           ></gc-column>
           <gc-column
@@ -76,6 +76,7 @@ import Excel from "@grapecity/spread-excelio";
 import { saveAs } from 'file-saver';
 
 import TablePanel from "./TablePanel";
+import { extractSheetData } from "../util/util";
 
 export default {
   components: { TablePanel },
@@ -88,21 +89,29 @@ export default {
         width:200,
         visible:true,
         resizable:true,
-        priceFormatter:"$ #.00"
+        priceFormatter:"$ #.00",
+        chartKey: 1
       }
-    },
+  },
   methods: {
       workbookInit: function(spread) {
         this._spread = spread;
       },
       fileChange: function (e) {
         if (this._spread) {
-          let fileDom = e.target || e.srcElement;
-          let excelIO = new Excel.IO();
-          let spread = this._spread;
+          const fileDom = e.target || e.srcElement;
+          const excelIO = new Excel.IO();
+          const spread = this._spread;
+          const store = this.$store;
+
+          const deserializationOptions = {
+            frozenRowsAsColumnHeaders: true
+          };
 
           excelIO.open(fileDom.files[0], (data) => {
-            spread.fromJSON(data);
+            console.dir(extractSheetData(data));
+            const newSalesData = extractSheetData(data);
+            store.commit('updateRecentSales', newSalesData)
           });
         }
       },
@@ -112,9 +121,12 @@ export default {
 
         const sheet = spread.getSheet(0);
         const excelIO = new Excel.IO();
-        const json = JSON.stringify(spread.toJSON());
+        const json = JSON.stringify(spread.toJSON({ 
+          includeBindingSource: true,
+          columnHeadersAsFrozenRows: true,
+        }));
 
-        excelIO.save(json, function(blob){
+        excelIO.save(json, (blob) => {
           saveAs(blob, fileName);
         }, function (e) {  
           alert(e);  

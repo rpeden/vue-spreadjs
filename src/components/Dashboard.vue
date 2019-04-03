@@ -43,7 +43,7 @@ export default {
     },
     salesTableData() {
       return this.$store.state.recentSales;
-    }
+    },
   }
 };
 </script>

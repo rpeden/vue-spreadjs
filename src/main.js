@@ -14,6 +14,11 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     recentSales
+  },
+  mutations: {
+    updateRecentSales(state, payload) {
+      state.recentSales = payload;
+    }
   }
 });
 
