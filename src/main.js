@@ -6,7 +6,6 @@ import { recentSales } from "./data/data";
 Vue.config.productionTip = false
 
 import "./style.css";
-import "wijmo/styles/wijmo.css";
 
 Vue.config.productionTip = false;
 Vue.use(Vuex);

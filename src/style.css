@@ -20,17 +20,9 @@ body,
 
 .dashboardPanel {
   margin-top: 20px;
-  height: 365px;
+  height: 200px;
 }
 
 .tablePanel {
   margin-bottom: 30px;
-}
-
-.gauge {
-  height: 300px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
 }

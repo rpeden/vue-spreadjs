@@ -3,9 +3,9 @@
     <NavBar title="Awesome Dashboard"/>
     <div class="container">
       <div class="row">
-        <Gauge :gaugeValue="gaugeData"/>
-        <SalesChart :salesData="chartData"/>
-        <SalesPie :salesData="pieData"/>
+        <TotalSales :total="totalSales"/>
+        <SalesByCountry :salesData="chartData"/>
+        <SalesByPerson :salesData="personSales"/>
         <SalesTable :tableData="salesTableData"/>
       </div>
     </div>
@@ -14,16 +14,16 @@
 
 <script>
 import NavBar from "./NavBar";
-import Gauge from "./Gauge";
-import SalesChart from "./SalesChart";
-import SalesPie from "./SalesPie";
+import TotalSales from "./TotalSales";
+import SalesByCountry from "./SalesByCountry";
+import SalesByPerson from "./SalesByPerson";
 import SalesTable from "./SalesTable";
 import { groupBySum } from "../util/util";
 
 export default {
-  components: { NavBar, SalesChart, SalesPie, SalesTable, Gauge },
+  components: { NavBar, SalesByCountry, SalesByPerson, SalesTable, TotalSales },
   computed: {
-    gaugeData() {
+    totalSales() {
       const items = this.$store.state.recentSales;
       const total = items.reduce(
         (acc, sale) => (acc += sale.value),
@@ -36,7 +36,7 @@ export default {
       const groups = groupBySum(items, "country", "value");
       return groups;
     },
-    pieData() {
+    personSales() {
       const items = this.$store.state.recentSales;
       const groups = groupBySum(items, "soldBy", "value");
       return groups;

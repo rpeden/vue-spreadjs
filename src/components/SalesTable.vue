@@ -28,7 +28,7 @@
             :dataField="'value'"
             :headerText="'Value'"
             :visible = 'visible'
-            formatter = '$ #.00'
+            :formatter = 'priceFormatter'
             :resizable = 'resizable'
           ></gc-column>
           <gc-column

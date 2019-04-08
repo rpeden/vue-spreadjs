@@ -20,7 +20,11 @@ export const groupBySum = (items, groupByProp, sumProp) => {
     }
     return sums;
   };
-  
+
+export const withCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const columnMappings = {
     "ID": "id",
     "Client": "client",
@@ -45,8 +49,6 @@ export const extractSheetData = (excelData) => {
     const rawData = JSON.parse(JSON.stringify(excelData));
     const sheet = rawData.sheets[Object.keys(rawData.sheets)[rawData.activeSheetIndex]];
     const data = objectToArray(sheet.data.dataTable);
-    console.dir(sheet);
-    console.dir(data);
     // since we're expecting column names as a frozen first row, let's extract them
     // and map them back to our data property names so we'll be able to reflect the new
     // data back to the Vuex store.
